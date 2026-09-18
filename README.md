@@ -9,15 +9,27 @@ Backend-focused C#/.NET engineer from Kyiv, Ukraine, with 10+ years of building 
 
 ### Open source
 
-**[Hlibz.Redoc.AspNetCore.DarkTheme](https://github.com/hlib-zinchenko/Hlibz.Redoc.AspNetCore.DarkTheme)**
-[![NuGet](https://img.shields.io/nuget/v/Hlibz.Redoc.AspNetCore.DarkTheme.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.DarkTheme)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.Redoc.AspNetCore.DarkTheme.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.DarkTheme)
+**[Hlibz.Redoc.AspNetCore.Extensions](https://github.com/hlib-zinchenko/Hlibz.Redoc.AspNetCore.Extensions)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
 
-A drop-in dark theme for [Redoc.AspNetCore](https://github.com/jonashendrickx/Redoc.AspNetCore)'s ReDoc UI, with an optional Light/System/Dark selector so everyone reading your API docs gets the theme they prefer. One line to enable:
+Add-ons for [Redoc.AspNetCore](https://github.com/jonashendrickx/Redoc.AspNetCore)'s ReDoc UI:
+
+- **Dark theme.** One line, and it fixes the colors ReDoc hardcodes outside its own theme config.
+- **Light/System/Dark selector.** Everyone reading your API docs gets the theme they prefer.
+- **Document picker.** Several OpenAPI documents in one app, with a dropdown to switch between
+  them, like Swagger UI's definition selector.
 
 ```csharp
 app.UseReDoc(options => options.UseDarkTheme());
+
+// or, for several OpenAPI documents:
+app.UseReDocDocuments(
+    [new ReDocDocument("public", "Public API"), new ReDocDocument("admin", "Admin API")],
+    docs => docs.ConfigureReDoc = (redoc, _) => redoc.UseDarkTheme());
 ```
+
+Previously published as `Hlibz.Redoc.AspNetCore.DarkTheme`.
 
 ### Tech I work with
 
