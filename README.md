@@ -9,6 +9,26 @@ Backend-focused C#/.NET engineer from Kyiv, Ukraine, with 10+ years of building 
 
 ### Open source
 
+**[Hlibz.Redoc.AspNetCore.Extensions](https://github.com/hlib-zinchenko/Hlibz.Redoc.AspNetCore.Extensions)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
+
+Add-ons for [Redoc.AspNetCore](https://github.com/jonashendrickx/Redoc.AspNetCore)'s ReDoc UI:
+
+- **Dark theme.** One line, and it fixes the colors ReDoc hardcodes outside its own theme config.
+- **Light/System/Dark selector.** Everyone reading your API docs gets the theme they prefer.
+- **Document picker.** Several OpenAPI documents in one app, with a dropdown to switch between
+  them, like Swagger UI's definition selector.
+
+```csharp
+app.UseReDoc(options => options.UseDarkTheme());
+
+// or, for several OpenAPI documents:
+app.UseReDocDocuments(
+    [new ReDocDocument("public", "Public API"), new ReDocDocument("admin", "Admin API")],
+    docs => docs.ConfigureReDoc = (redoc, _) => redoc.UseDarkTheme());
+```
+
 **[Hlibz.EntityFrameworkCore.ModelRules](https://github.com/hlib-zinchenko/Hlibz.EntityFrameworkCore.ModelRules)**
 [![NuGet](https://img.shields.io/nuget/v/Hlibz.EntityFrameworkCore.ModelRules.svg)](https://www.nuget.org/packages/Hlibz.EntityFrameworkCore.ModelRules)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.EntityFrameworkCore.ModelRules.svg)](https://www.nuget.org/packages/Hlibz.EntityFrameworkCore.ModelRules)
@@ -33,26 +53,6 @@ protected override void ConfigureConventions(ModelConfigurationBuilder configura
         .StringsHaveMaxLength()
         .NoCascadeDeleteAcrossAggregates<IAggregateRoot>());
 }
-```
-
-**[Hlibz.Redoc.AspNetCore.Extensions](https://github.com/hlib-zinchenko/Hlibz.Redoc.AspNetCore.Extensions)**
-[![NuGet](https://img.shields.io/nuget/v/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
-
-Add-ons for [Redoc.AspNetCore](https://github.com/jonashendrickx/Redoc.AspNetCore)'s ReDoc UI:
-
-- **Dark theme.** One line, and it fixes the colors ReDoc hardcodes outside its own theme config.
-- **Light/System/Dark selector.** Everyone reading your API docs gets the theme they prefer.
-- **Document picker.** Several OpenAPI documents in one app, with a dropdown to switch between
-  them, like Swagger UI's definition selector.
-
-```csharp
-app.UseReDoc(options => options.UseDarkTheme());
-
-// or, for several OpenAPI documents:
-app.UseReDocDocuments(
-    [new ReDocDocument("public", "Public API"), new ReDocDocument("admin", "Admin API")],
-    docs => docs.ConfigureReDoc = (redoc, _) => redoc.UseDarkTheme());
 ```
 
 ### Tech I work with
