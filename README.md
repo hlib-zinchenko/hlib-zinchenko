@@ -1,13 +1,17 @@
 ## Hi, I'm Hlib 👋
 
-Backend-focused C#/.NET engineer from Kyiv, Ukraine, with 10+ years of building web products from scratch to production.
+Senior .NET backend engineer from Kyiv, Ukraine, with 10+ years of building web products from scratch to production, most recently as a backend lead.
 
-- Co-founder & lead engineer of a pre-launch consumer fintech product (private repo), built end to end with an AI-driven workflow in Claude Code
-- Previously led backend teams: a modular-monolith rewrite of a restaurant POS platform at Developex, and 5+ years as a lead .NET engineer at Dedicated Lab
+- Co-founder & lead engineer of a pre-launch consumer fintech product (private repo): a .NET 10 modular monolith plus web and admin apps, built with an agentic Claude Code workflow (architecture guides, glossary and ADRs as agent context, custom skills, build-breaking guardrails)
+- Back at Developex part-time, on AI-powered self-service reporting for a B2B client
+- Before that, backend lead on a restaurant POS platform at Developex: took over a stalled Ruby-to-.NET rewrite, re-architected it into a modular monolith, delivered multi-tenancy, Auth0 and delivery-aggregator integrations, and hired for the team
+- 5+ years as a lead .NET engineer at Dedicated Lab, a software studio serving US clients
 - Into DDD, modular monoliths, CQRS and clean, boring-in-a-good-way architecture
 - Most of my work lives in private client repos, so this profile is quieter than my commit history
 
 ### Open source
+
+The libraries below grew out of patterns I enforced on production projects.
 
 **[Hlibz.Redoc.AspNetCore.Extensions](https://github.com/hlib-zinchenko/Hlibz.Redoc.AspNetCore.Extensions)**
 [![NuGet](https://img.shields.io/nuget/v/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
@@ -62,14 +66,14 @@ Offline-first flashcards app that installs to an iPhone home screen, with no App
 
 ### Tech I work with
 
-- **Architecture:** DDD, CQRS, Clean Architecture, modular monoliths, REPR, multi-tenancy
-- **Backend:** C#, .NET, ASP.NET Core, EF Core, MassTransit, MediatR, FluentValidation, Hangfire, Quartz, SignalR, Serilog
+- **Architecture:** DDD, CQRS, Clean Architecture, modular monoliths, REPR, event-driven, multi-tenancy
+- **Backend:** C#, .NET, ASP.NET Core, EF Core, MassTransit, MediatR, FluentValidation, Hangfire, Quartz, SignalR, Serilog, Roslyn analyzers
 - **Data:** PostgreSQL, MS SQL, MySQL
 - **Cloud & DevOps:** AWS (EC2, ECS, RDS, S3, SES, SNS, CloudWatch), Docker, GitLab CI, GitHub Actions, Azure DevOps
 - **Integrations:** Auth0, Stripe, Stream (delivery aggregators)
 - **Testing:** xUnit, Moq, Testcontainers
 - **Frontend (logic side):** Vue.js, TypeScript
-- **AI:** Claude Code, prompt design for LLM features
+- **AI:** Claude Code (agentic workflows, custom skills), LLM integration, prompt design
 
 ### Find me
 
