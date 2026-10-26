@@ -2,7 +2,7 @@
 
 Senior .NET backend engineer from Kyiv, Ukraine, with 10+ years of building web products from scratch to production, most recently as a backend lead.
 
-- Co-founder & lead engineer of a pre-launch consumer fintech product (private repo): a .NET 10 modular monolith plus web and admin apps, built with an agentic Claude Code workflow (architecture guides, glossary and ADRs as agent context, custom skills, build-breaking guardrails)
+- Co-founder & lead engineer of a pre-launch consumer fintech product (private repo): a .NET 10 modular monolith plus web and admin apps, built with an agentic Claude Code workflow (architecture guides, glossary and ADRs as agent context, custom skills, build-breaking guardrails including the libraries below)
 - Back at Developex part-time, on AI-powered self-service reporting for a B2B client
 - Before that, backend lead on a restaurant POS platform at Developex: took over a stalled Ruby-to-.NET rewrite, re-architected it into a modular monolith, delivered multi-tenancy, Auth0 and delivery-aggregator integrations, and hired for the team
 - 5+ years as a lead .NET engineer at Dedicated Lab, a software studio serving US clients
@@ -12,26 +12,6 @@ Senior .NET backend engineer from Kyiv, Ukraine, with 10+ years of building web 
 ### Open source
 
 The libraries below grew out of patterns I enforced on production projects.
-
-**[Hlibz.Redoc.AspNetCore.Extensions](https://github.com/hlib-zinchenko/Hlibz.Redoc.AspNetCore.Extensions)**
-[![NuGet](https://img.shields.io/nuget/v/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.Redoc.AspNetCore.Extensions.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore.Extensions)
-
-Add-ons for [Redoc.AspNetCore](https://github.com/jonashendrickx/Redoc.AspNetCore)'s ReDoc UI:
-
-- **Dark theme.** One line, and it fixes the colors ReDoc hardcodes outside its own theme config.
-- **Light/System/Dark selector.** Everyone reading your API docs gets the theme they prefer.
-- **Document picker.** Several OpenAPI documents in one app, with a dropdown to switch between
-  them, like Swagger UI's definition selector.
-
-```csharp
-app.UseReDoc(options => options.UseDarkTheme());
-
-// or, for several OpenAPI documents:
-app.UseReDocDocuments(
-    [new ReDocDocument("public", "Public API"), new ReDocDocument("admin", "Admin API")],
-    docs => docs.ConfigureReDoc = (redoc, _) => redoc.UseDarkTheme());
-```
 
 **[Hlibz.EntityFrameworkCore.ModelRules](https://github.com/hlib-zinchenko/Hlibz.EntityFrameworkCore.ModelRules)**
 [![NuGet](https://img.shields.io/nuget/v/Hlibz.EntityFrameworkCore.ModelRules.svg)](https://www.nuget.org/packages/Hlibz.EntityFrameworkCore.ModelRules)
@@ -57,6 +37,50 @@ protected override void ConfigureConventions(ModelConfigurationBuilder configura
         .StringsHaveMaxLength()
         .NoCascadeDeleteAcrossAggregates<IAggregateRoot>());
 }
+```
+
+**[Hlibz.TypeRules.Analyzers](https://github.com/hlib-zinchenko/Hlibz.TypeRules.Analyzers)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.TypeRules.Analyzers.svg)](https://www.nuget.org/packages/Hlibz.TypeRules.Analyzers)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.TypeRules.Analyzers.svg)](https://www.nuget.org/packages/Hlibz.TypeRules.Analyzers)
+
+Roslyn analyzers for the shape of a type, based on what it inherits or implements. Architecture
+tests catch these when the tests run; TypeRules catches them in the editor, while you type:
+
+- **Rule sets in `.editorconfig`.** Endpoints are `internal sealed` and live in an `Endpoints`
+  namespace, every handler has its own `IFooHandler`, entities have no public setters and refer to
+  each other by id, value objects are immutable and compare by value.
+- **10 rules with code fixes** that are only offered when applying them can't break the build,
+  with Fix All and `dotnet format analyzers` support.
+- **Opt-in.** Nothing is checked until you configure a rule set, and invalid configuration is
+  reported instead of half-applied.
+
+```ini
+[*.cs]
+typerules.endpoints.match = T:MyApp.Api.IEndpoint
+typerules.endpoints.max_accessibility = internal
+typerules.endpoints.require_sealed = true
+typerules.endpoints.namespace_pattern = **.Endpoints
+```
+
+**[Hlibz.Redoc](https://github.com/hlib-zinchenko/Hlibz.Redoc)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.Redoc.AspNetCore.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.Redoc.Extensions.Core.svg)](https://www.nuget.org/packages/Hlibz.Redoc.Extensions.Core)
+
+ReDoc API docs for ASP.NET Core, the way I wanted them. Use it as an adapter for the package you
+already have, or on its own:
+
+- **Adapters for Swashbuckle and Redoc.AspNetCore.** A dark theme and a document picker for the
+  ReDoc page you already serve: two lines added to your `UseReDoc` call.
+- **A standalone ReDoc 3 host**, for when someone else's middleware isn't enough:
+  authorization per document, a pre-compressed bundle with real cache headers, a strict CSP with
+  nothing inline, no third-party requests, AOT-compatible.
+- **Several OpenAPI documents** with a dropdown between them, like Swagger UI's definition
+  selector, which ReDoc doesn't have on any version.
+
+```csharp
+app.MapOpenApi();
+app.MapReDocDocuments(
+    [new ReDocDocument("public", "Public API"), new ReDocDocument("admin", "Admin API")]);
 ```
 
 ### Side projects
