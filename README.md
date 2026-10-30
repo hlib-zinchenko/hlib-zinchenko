@@ -1,9 +1,9 @@
 ## Hi, I'm Hlib 👋
 
-Senior .NET backend engineer from Kyiv, Ukraine, with 10+ years of building web products from scratch to production, most recently as a backend lead.
+Senior .NET backend engineer from Kyiv, Ukraine, with 10+ years of building web products from scratch to production, most recently as a backend lead and startup co-founder.
 
 - Co-founder & lead engineer of a pre-launch consumer fintech product (private repo): a .NET 10 modular monolith plus web and admin apps, built with an agentic Claude Code workflow (architecture guides, glossary and ADRs as agent context, custom skills, build-breaking guardrails including the libraries below)
-- Back at Developex part-time, on AI-powered self-service reporting for a B2B client
+- Back at Developex part-time as backend lead on an AI chat for a B2B client, using MCP, plus the frontend
 - Before that, backend lead on a restaurant POS platform at Developex: took over a stalled Ruby-to-.NET rewrite, re-architected it into a modular monolith, delivered multi-tenancy, Auth0 and delivery-aggregator integrations, and hired for the team
 - 5+ years as a lead .NET engineer at Dedicated Lab, a software studio serving US clients
 - Into DDD, modular monoliths, CQRS and clean, boring-in-a-good-way architecture
