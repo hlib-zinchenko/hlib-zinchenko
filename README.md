@@ -83,6 +83,14 @@ app.MapReDocDocuments(
     [new ReDocDocument("public", "Public API"), new ReDocDocument("admin", "Admin API")]);
 ```
 
+**[dotnet-guardrails](https://github.com/hlib-zinchenko/dotnet-guardrails)**
+
+A strict, copy-able .NET setup where the rules fail the build instead of waiting for code review. It's a template repo, not a package:
+
+- **Everything in one copy-paste:** .NET 10 with nullable and `AnalysisMode=All`, warnings as errors, StyleCop, SonarAnalyzer, explicit types, and banned APIs (no `DateTime.Now`, inject a clock).
+- **Type and model rules:** TypeRules for the shape of types, and ModelRules for EF Core.
+- **Written for AI agents too.** A `CLAUDE.md` carries the same rules, so an agent that drifts gets a compiler error, not a lecture.
+
 ### Side projects
 
 **[Flashcards PWA](https://hlib-zinchenko.github.io/flashcards-pwa/)** ([repo](https://github.com/hlib-zinchenko/flashcards-pwa))
