@@ -109,4 +109,4 @@ Offline-first flashcards app that installs to an iPhone home screen, with no App
 
 ### Find me
 
-[LinkedIn](https://linkedin.com/in/hzinchenko)
+[My Home Page](https://hzinchenko.com) · [LinkedIn](https://linkedin.com/in/hzinchenko)
