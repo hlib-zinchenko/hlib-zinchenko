@@ -93,7 +93,7 @@ A strict, copy-able .NET setup where the rules fail the build instead of waiting
 
 ### Side projects
 
-**[Flashcards PWA](https://hlib-zinchenko.github.io/flashcards-pwa/)** ([repo](https://github.com/hlib-zinchenko/flashcards-pwa))
+**[Flashcards PWA](https://flashcards.hzinchenko.com/)** ([repo](https://github.com/hlib-zinchenko/flashcards-pwa))
 Offline-first flashcards app that installs to an iPhone home screen, with no App Store, account or server. I built it for my partner after no existing app fit how she studies, and I keep improving it from her feedback. I chose a PWA over a native app to skip the developer fee and review cycle. Svelte 5, TypeScript, IndexedDB, with tests, CI and tag-based releases. Built with Claude Code.
 
 ### Tech I work with
