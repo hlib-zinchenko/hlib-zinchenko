@@ -83,6 +83,25 @@ app.MapReDocDocuments(
     [new ReDocDocument("public", "Public API"), new ReDocDocument("admin", "Admin API")]);
 ```
 
+**[Hlibz.McpDocs.AspNetCore](https://github.com/hlib-zinchenko/Hlibz.McpDocs.AspNetCore)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.McpDocs.AspNetCore.svg)](https://www.nuget.org/packages/Hlibz.McpDocs.AspNetCore)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.McpDocs.AspNetCore.svg)](https://www.nuget.org/packages/Hlibz.McpDocs.AspNetCore)
+
+A ReDoc-style docs page for an MCP server hosted in ASP.NET Core, generated from the tools,
+prompts and resources you already registered. It started as a companion to the MCP server I build at work:
+
+- **What a client sees, for people.** Every tool, prompt and resource with parameter trees,
+  annotations and example calls, generated from the same registrations as `tools/list`. A test diffs the two.
+- **Connect snippets** for Claude Code, Claude Desktop, VS Code, Cursor and Goose, and `[Authorize]`
+  is honoured, so a viewer only sees what their MCP client would see.
+- **Exports for agents** (`catalog.json`, `catalog.md`, `llms.txt`, `server.json`) and a snapshot
+  API that fails the build when the contract changes, like an OpenAPI diff.
+
+```csharp
+app.MapMcp("/mcp");
+app.MapMcpDocs("/mcp-docs");
+```
+
 **[dotnet-guardrails](https://github.com/hlib-zinchenko/dotnet-guardrails)**
 
 A strict, copy-able .NET setup where the rules fail the build instead of waiting for code review. It's a template repo, not a package:
