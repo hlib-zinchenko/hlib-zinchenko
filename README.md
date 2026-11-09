@@ -1,16 +1,131 @@
-# hzinchenko.com
+## Hi, I'm Hlib 👋
 
-Personal site, served by GitHub Pages from the root of `main`. Plain HTML and CSS, no build step.
+Senior .NET backend engineer from Kyiv, Ukraine, with 10+ years of building web products from scratch to production, most recently as a backend lead and startup co-founder.
 
-- `/` — the 90s homepage, with a real visitor counter, working GTA cheat codes, a cookbook built like a Windows Help file, a DOS prompt whose `TYPE` reads the page itself, windows you can minimize and maximize, with a taskbar and a Start menu, a jukebox that plays Leontovych's "Shchedryk" as square waves generated in the browser, Minesweeper and the Terms of Use
-- `/ua/` — the same 90s homepage in Ukrainian. Both pages share `90s.css` and `90s.js`, so only the text is duplicated
-- `/business/` — the same facts, minus the fun
-- `img/` — photos, downscaled into 1998 digital-camera JPEGs
-- `_og/` — the social preview cards behind `/img/og-*.png`, with the command that renders them
-- `_infra/visitor-counter/` — the AWS Lambda behind the counter (Function URL + DynamoDB), the turtle poll and the weather widget, which it fetches from Open-Meteo and caches so that visitors' browsers never contact a weather provider. Jekyll skips `_` folders, so it isn't published.
+- Co-founder & lead engineer of a pre-launch consumer fintech product (private repo): a .NET 10 modular monolith plus web and admin apps, built with an agentic Claude Code workflow (architecture guides, glossary and ADRs as agent context, custom skills, build-breaking guardrails including the libraries below)
+- Back at Developex part-time as backend lead on an AI chat for a B2B client, using MCP, plus the frontend
+- Before that, backend lead on a restaurant POS platform at Developex: took over a stalled Ruby-to-.NET rewrite, re-architected it into a modular monolith, delivered multi-tenancy, Auth0 and delivery-aggregator integrations, and hired for the team
+- 5+ years as a lead .NET engineer at Dedicated Lab, a software studio serving US clients
+- Into DDD, modular monoliths, CQRS and clean, boring-in-a-good-way architecture
+- Most of my work lives in private client repos, so this profile is quieter than my commit history
 
-Preview locally:
+### Open source
 
-```bash
-python3 -m http.server 8000
+The libraries below grew out of patterns I enforced on production projects.
+
+**[Hlibz.EntityFrameworkCore.ModelRules](https://github.com/hlib-zinchenko/Hlibz.EntityFrameworkCore.ModelRules)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.EntityFrameworkCore.ModelRules.svg)](https://www.nuget.org/packages/Hlibz.EntityFrameworkCore.ModelRules)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.EntityFrameworkCore.ModelRules.svg)](https://www.nuget.org/packages/Hlibz.EntityFrameworkCore.ModelRules)
+
+Your team's conventions, enforced on the EF Core model. If an entity breaks one, the model fails to build, at startup or in a unit test:
+
+- **14 rules** for shadow properties, snake_case naming, decimal precision, string lengths,
+  nullability, enum storage, schemas, query filters, delete behaviors, redundant indexes and
+  identifier lengths.
+- **Aggregate boundaries.** Roots refer to each other by key only, never delete each other by
+  cascade, and each has a concurrency token.
+- **EF Core 8, 9 and 10**, provider-neutral. It's tested on PostgreSQL, SQL Server, SQLite and
+  MySQL, and against real databases in Docker.
+
+```csharp
+protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+{
+    configurationBuilder.UseModelRules(rules => rules
+        .NoShadowProperties()
+        .NamesFollow(NamingStyle.SnakeCase)
+        .DecimalsHavePrecision()
+        .StringsHaveMaxLength()
+        .NoCascadeDeleteAcrossAggregates<IAggregateRoot>());
+}
 ```
+
+**[Hlibz.TypeRules.Analyzers](https://github.com/hlib-zinchenko/Hlibz.TypeRules.Analyzers)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.TypeRules.Analyzers.svg)](https://www.nuget.org/packages/Hlibz.TypeRules.Analyzers)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.TypeRules.Analyzers.svg)](https://www.nuget.org/packages/Hlibz.TypeRules.Analyzers)
+
+Roslyn analyzers for the shape of a type, based on what it inherits or implements. Architecture
+tests catch these when the tests run; TypeRules catches them in the editor, while you type:
+
+- **Rule sets in `.editorconfig`.** Endpoints are `internal sealed` and live in an `Endpoints`
+  namespace, every handler has its own `IFooHandler`, entities have no public setters and refer to
+  each other by id, value objects are immutable and compare by value.
+- **10 rules with code fixes** that are only offered when applying them can't break the build,
+  with Fix All and `dotnet format analyzers` support.
+- **Opt-in.** Nothing is checked until you configure a rule set, and invalid configuration is
+  reported instead of half-applied.
+
+```ini
+[*.cs]
+typerules.endpoints.match = T:MyApp.Api.IEndpoint
+typerules.endpoints.max_accessibility = internal
+typerules.endpoints.require_sealed = true
+typerules.endpoints.namespace_pattern = **.Endpoints
+```
+
+**[Hlibz.Redoc](https://github.com/hlib-zinchenko/Hlibz.Redoc)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.Redoc.AspNetCore.svg)](https://www.nuget.org/packages/Hlibz.Redoc.AspNetCore)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.Redoc.Extensions.Core.svg)](https://www.nuget.org/packages/Hlibz.Redoc.Extensions.Core)
+
+ReDoc API docs for ASP.NET Core, the way I wanted them. Use it as an adapter for the package you
+already have, or on its own:
+
+- **Adapters for Swashbuckle and Redoc.AspNetCore.** A dark theme and a document picker for the
+  ReDoc page you already serve: two lines added to your `UseReDoc` call.
+- **A standalone ReDoc 3 host**, for when someone else's middleware isn't enough:
+  authorization per document, a pre-compressed bundle with real cache headers, a strict CSP with
+  nothing inline, no third-party requests, AOT-compatible.
+- **Several OpenAPI documents** with a dropdown between them, like Swagger UI's definition
+  selector, which ReDoc doesn't have on any version.
+
+```csharp
+app.MapOpenApi();
+app.MapReDocDocuments(
+    [new ReDocDocument("public", "Public API"), new ReDocDocument("admin", "Admin API")]);
+```
+
+**[Hlibz.McpDocs.AspNetCore](https://github.com/hlib-zinchenko/Hlibz.McpDocs.AspNetCore)**
+[![NuGet](https://img.shields.io/nuget/v/Hlibz.McpDocs.AspNetCore.svg)](https://www.nuget.org/packages/Hlibz.McpDocs.AspNetCore)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Hlibz.McpDocs.AspNetCore.svg)](https://www.nuget.org/packages/Hlibz.McpDocs.AspNetCore)
+
+A ReDoc-style docs page for an MCP server hosted in ASP.NET Core, generated from the tools,
+prompts and resources you already registered. It started as a companion to the MCP server I build at work:
+
+- **What a client sees, for people.** Every tool, prompt and resource with parameter trees,
+  annotations and example calls, generated from the same registrations as `tools/list`. A test diffs the two.
+- **Connect snippets** for Claude Code, Claude Desktop, VS Code, Cursor and Goose, and `[Authorize]`
+  is honoured, so a viewer only sees what their MCP client would see.
+- **Exports for agents** (`catalog.json`, `catalog.md`, `llms.txt`, `server.json`) and a snapshot
+  API that fails the build when the contract changes, like an OpenAPI diff.
+
+```csharp
+app.MapMcp("/mcp");
+app.MapMcpDocs("/mcp-docs");
+```
+
+**[dotnet-guardrails](https://github.com/hlib-zinchenko/dotnet-guardrails)**
+
+A strict, copy-able .NET setup where the rules fail the build instead of waiting for code review. It's a template repo, not a package:
+
+- **Everything in one copy-paste:** .NET 10 with nullable and `AnalysisMode=All`, warnings as errors, StyleCop, SonarAnalyzer, explicit types, and banned APIs (no `DateTime.Now`, inject a clock).
+- **Type and model rules:** TypeRules for the shape of types, and ModelRules for EF Core.
+- **Written for AI agents too.** A `CLAUDE.md` carries the same rules, so an agent that drifts gets a compiler error, not a lecture.
+
+### Side projects
+
+**[Karbka](https://karbka.com/)** ([app](https://app.karbka.com/), [repo](https://github.com/hlib-zinchenko/karbka))
+Offline-first flashcards app that installs from the browser to a phone, tablet or computer, with no App Store or account, and the cards never leave the device. I built it for my partner after no existing app fit how she studies, and I keep improving it from her feedback. I chose a PWA over a native app to skip the developer fee and review cycle. Svelte 5, TypeScript, IndexedDB, with tests, CI and tag-based releases, plus an anonymous, opt-out usage counter on AWS Lambda and DynamoDB. Built with Claude Code.
+
+### Tech I work with
+
+- **Architecture:** DDD, CQRS, Clean Architecture, modular monoliths, REPR, event-driven, multi-tenancy
+- **Backend:** C#, .NET, ASP.NET Core, EF Core, MassTransit, MediatR, FluentValidation, Hangfire, Quartz, SignalR, Serilog, Roslyn analyzers
+- **Data:** PostgreSQL, MS SQL, MySQL
+- **Cloud & DevOps:** AWS (EC2, ECS, RDS, S3, SES, SNS, CloudWatch), Docker, GitLab CI, GitHub Actions, Azure DevOps
+- **Integrations:** Auth0, Stripe, Stream (delivery aggregators)
+- **Testing:** xUnit, Moq, Testcontainers
+- **Frontend (logic side):** Vue.js, TypeScript
+- **AI:** Claude Code (agentic workflows, custom skills), LLM integration, prompt design
+
+### Find me
+
+[My Home Page](https://hzinchenko.com) · [LinkedIn](https://linkedin.com/in/hzinchenko)
